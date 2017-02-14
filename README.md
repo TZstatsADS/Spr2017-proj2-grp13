@@ -1,4 +1,4 @@
-# Project 2: Open Data App - an RShiny app development project
+# Project 2: University Revommendation System - an RShiny app development project
 
 ### [Project Description](doc/project2_desc.md)
 
