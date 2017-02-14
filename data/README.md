@@ -10,7 +10,7 @@ The data directory contains data used in the analysis. This is treated as read o
 
 
 #### Raw Data
-The source of the data is : https://catalog.data.gov/dataset/college-scorecard
+The source of the data is : https://catalog.data.gov/dataset/college-scorecard   \n
 And the handbook of the data is : https://collegescorecard.ed.gov/data/documentation/
 
 #### Data Description (mainly the used ones, use find to get specific definition):
