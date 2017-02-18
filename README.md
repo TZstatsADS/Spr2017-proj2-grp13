@@ -19,7 +19,7 @@ The **learning goals** for this project is:
 ## US University Recommendation System
 Term: Spring 2017
 
-![screenshot](doc/screenshot2.png)
+![screenshot](doc/Screen Shot 1.png)
 
 + Team # 13
 	+ Han Ke
