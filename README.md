@@ -2,20 +2,6 @@
 
 ### [Project Description](doc/project2_desc.md)
 
-
-
-In this second project of GU4243/GR5243 Applied Data Science, we develop an *Exploratory Data Analysis and Visualization* shiny app on a topic of your choice using U.S. government open data released on the [data.gov](https://data.gov/) website. See [Project 2 Description](project2_desc.md) for more details.  
-
-The **learning goals** for this project is:
-
-- business intelligence for data science
-- data cleaning
-- data visualization
-- systems development/design life cycle
-- shiny app/shiny server
-
-*The above general statement about project 2 can be removed once you are finished with your project. It is optional.
-
 ## US University Recommendation System
 Term: Spring 2017
 
@@ -28,7 +14,13 @@ Term: Spring 2017
 	+ Yu Shan
 	+ Zhou Chengcen
 
-+ **Project summary**: 
++ **Project learning Goals **: 
+
+- business intelligence for data science
+- data cleaning
+- data visualization
+- systems development/design life cycle
+- shiny app/shiny server
 
 + **Contribution statement**: ([default](doc/a_note_on_contributions.md)) All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contributions statement. 
 
