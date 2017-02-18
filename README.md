@@ -15,7 +15,7 @@ Our goal with this project was to "use of a technique to help high school studen
 	+ Yu Shan
 	+ Zhou Chengcen
 
-+ **Project Goals **: 
++ Project Goals
 - business intelligence for data science
 - data cleaning
 - data visualization
