@@ -27,12 +27,12 @@ Our goal with this project was to "use of a technique to help high school studen
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
 ```
-proj/
+
 ├── app/
 ├── lib/
 ├── data/
-├── doc/
-└── output/
+├── pictures/
+└── 
 ```
 
 Please see each subfolder for a README file.
