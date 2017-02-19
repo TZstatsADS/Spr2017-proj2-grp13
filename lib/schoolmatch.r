@@ -1,3 +1,6 @@
+# a function, transform the student infromation into school selection
+
+
 #Input: SAT(INT), ACT(INT), ZIP(INT),close(T/F), major(string), pay(INT)
 #transfer zip to lan and long
 install.packages("zipcode")
@@ -29,3 +32,9 @@ if(is.null(major)==FALSE){
 q.school$color<-1/q.school$Rank
 q.school$size<-20*(q.school$UGPS/max(q.school$UGPS))
 #OUtput
+
+
+
+
+
+
