@@ -1,5 +1,5 @@
-# Project: NYC Open Data
+# Project: University Recommendation Systerm
 ### App folder
 
-The App directory contains the app files for the Shiny App (i.e., ui.r and server.r).
+Upload ui.r and server.r file here.
 
