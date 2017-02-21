@@ -13,7 +13,7 @@ function(input, output) {
                 output$bPlot <- renderPlot({
                   # Render a barplot
                   ggplot(data=data[c(input$rank:(input$rank+10)),], aes(x=data[c(input$rank:(input$rank+10)),][,'College.Name'], y=data[c(input$rank:(input$rank+10)),][,input$var],fill=data[c(input$rank:(input$rank+10)),][,input$var]))+
-                    geom_bar(stat="identity")+ theme(axis.text.x=element_text(angle = -90, hjust = 0))+ylab(input$var)+scale_fill_gradient(low="white", high="blue",breaks=seq(min(data[,input$var]), max(data[,input$var]), by=0.1))+ylim(0, ylim1())+labs(fill=input$var)+xlab('College Name')
+                    geom_bar(stat="identity")+ theme(axis.text.x=element_text(angle = -90, hjust = 0))+ylab(input$var)+scale_fill_gradient(low="white", high="blue",limit=(c(0,1)))+ylim(0, ylim1())+labs(fill=input$var)+xlab('College Name')
                 })
                 output$sPlot <- renderPlot({
                   # Render a barplot
