@@ -1,7 +1,6 @@
 fluidPage(
-  
-    
-    sidebarLayout(      
+
+ sidebarLayout(      
       
       # Define the sidebar with one input
       sidebarPanel(
@@ -34,9 +33,11 @@ fluidPage(
 
     mainPanel(
       plotOutput("bPlot"), 
-      plotOutput("sPlot"),
+      plotOutput("sPlot", hover = "ho"),
       actionButton("go", "Find the best valued University"),
+      verbatimTextOutput("info"),
       textOutput("text1")
+      
     )
   
 

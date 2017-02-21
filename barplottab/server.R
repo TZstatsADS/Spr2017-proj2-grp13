@@ -5,25 +5,32 @@ data1=read.csv('CleanDataFinal.csv', na.strings = "NULL")
 data1[is.na(data1)]=0
 data1[,c(10:18,31)][data1[,c(10:18,31)]<=200]=NA
 function(input, output) {
-  best.valued=reactive({as.character(data1$College.Name[as.numeric(names(sort(model()$residuals,decreasing = T)[1:5]))])})
+  best.valued=reactive({as.character(data$College.Name[as.numeric(names(sort(model()$residuals,decreasing = T)[1:5]))])})
   # Fill in the spot we created for a plot
   data=data1[order(data1[,'Rank']),]
+  data2=data
+  data2[is.na(data2)]=-999
   model=reactive({lm(data[,input$y]~data[,input$x])})
   InverseRank=1/data[,'Rank']
   Rank=data[,'Rank']
   ylim1=reactive({max(data[,input$var])})
   ylim2=reactive({min(data[,input$var])})
+  x=reactive({input$ho$x})
+  y=reactive({input$ho$y})
+  score=function(x,y,x1,y1){return((x-x1)^2+(y-y1)^2)}
+  name=reactive({as.character(data2$College.Name)[which.min(score(x(),y(),data2[,input$x],data2[,input$y]))]})
   observeEvent(input$go, {
  if(input$x!=input$y){
-    bool=rep(0,length(data1$College.Name))
+    bool=rep(0,length(data$College.Name))
     bool[as.numeric(names(sort(model()$residuals,decreasing = T)[1:5]))]=1
     data$bool=bool
+
     output$sPlot <- renderPlot({
       # Render a barplot
       
       ggplot(data=data, aes(x=data[,input$x], y=data[,input$y],size=factor(bool),fill=factor(bool),colour=factor(bool)))+
         geom_point()  + theme(axis.text.x=element_text(angle = -90, hjust = 0))+ylab(input$y)+labs(fill='best value')+xlab(input$x)+ylab(input$y)
-
+    
     })
     output$text1 <- renderText({ 
       paste(best.valued(), sep=",", collapse=",")
@@ -32,7 +39,7 @@ function(input, output) {
   })
   observeEvent(input$x, {
     
-    bool=rep(0,length(data1$College.Name))
+    bool=rep(0,length(data$College.Name))
     bool[as.numeric(names(sort(model()$residuals,decreasing = T)[1:5]))]=1
     data$bool=bool
     output$sPlot <- renderPlot({
@@ -48,7 +55,7 @@ function(input, output) {
   })
   observeEvent(input$y, {
     
-    bool=rep(0,length(data1$College.Name))
+    bool=rep(0,length(data$College.Name))
     bool[as.numeric(names(sort(model()$residuals,decreasing = T)[1:5]))]=1
     data$bool=bool
     output$sPlot <- renderPlot({
@@ -75,6 +82,9 @@ function(input, output) {
                 })
                 output$text1 <- renderText({ 
                    ''
+                })
+                output$info <- renderText({
+                  name()
                 })
                 
 
