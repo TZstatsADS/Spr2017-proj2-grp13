@@ -34,7 +34,9 @@ fluidPage(
 
     mainPanel(
       plotOutput("bPlot"), 
-      plotOutput("sPlot") 
+      plotOutput("sPlot"),
+      actionButton("go", "Find the best valued University"),
+      textOutput("text1")
     )
   
 
