@@ -13,3 +13,17 @@ var1<-c("INSTNM","ZIP","INSTURL","LATITUDE","LONGITUDE","ADM_RATE",
        "UGDS_WHITE", "UGDS_BLACK","UGDS_HISP", 
         "UGDS_ASIAN","UGDS_AIAN","UGDS_NHPI","UGDS")
 data1<-all[,var1]
+
+
+#get the list of schools we interested in, good schools, dream to enroll
+data<-merge(data1,rank,by.x="INSTNM",by.y="V3")
+
+#cleaning on the extremely
+#winsorize some numeric features
+winsor <- function (x, fraction=.02){
+  lim <- quantile(x, probs=c(fraction, 1-fraction),na.rm=TRUE)
+  x[ x < lim[1] ] <- lim[1]
+  x[ x > lim[2] ] <- lim[2]
+  return(x)
+}
+data$SATVR25=winsor(data$SATVR25,0.01)
