@@ -1,9 +1,10 @@
 shinyUI(fluidPage(
-  titlePanel("University Information Conty Summary"),
+  titlePanel("University Information County Summary"),
   
   sidebarLayout(
     sidebarPanel(
       h5("Create univerisity summarization graphic with information from the 2015 data.gov."),
+      h6("This is a way to show the university data in a dynamic way. "),
       
       selectInput("var", 
                   label = "Choose a variable to display",
