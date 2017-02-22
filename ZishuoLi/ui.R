@@ -31,8 +31,10 @@ navbarPage("Superzip", id="nav",
         h2("ZIP explorer"),
 
         selectInput("color", "Color", vars),
-        selectInput("size", "Size", vars, selected = "adultpop")
-        
+        selectInput("size", "Size", vars, selected = "adultpop"),
+        sliderInput("Rank","Rank",min = 1,max = 300,value = 1),
+        sliderInput("tuition","tuition",min = 6000,max=80000,value =40000)
+      
       ),
 
       tags$div(id="cite",

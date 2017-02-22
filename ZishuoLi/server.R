@@ -26,22 +26,22 @@ function(input, output, session) {
   observe({
     colorBy <- input$color
     sizeBy <- input$size
-    tuition <- as.numeric(input$tuition)
-    Rank2 <- as.numeric(input$Rank)
+    tuition <- input$tuition
+    Rank2 <- input$Rank
      
     data<- filter(collegedata,COSTT4_A<tuition&&Rank<Rank2)
-    radius1 <- data$COSTT4_A/100
+    radius1 <- data$COSTT4_A*100
     radius <- zipdata[[sizeBy]] / max(zipdata[[sizeBy]]) * 30000
 
   output$map <- renderLeaflet({
     
-    leaflet(data=zipdata) %>%
+    leaflet(data=data) %>%
       addTiles(
         urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
         attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>'
       ) %>%setView(lng = -93.85, lat = 37.45, zoom = 4) %>%
       clearShapes() %>%
-      addCircles(~longitude, ~latitude, radius=radius, layerId=~zipcode,
+      addCircles(~longitude, ~latitude, radius=radius1, layerId=~UNITID,
                  stroke=FALSE, fillOpacity=0.4, fillColor="red")
     })
 
