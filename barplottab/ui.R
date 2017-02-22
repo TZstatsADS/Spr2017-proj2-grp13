@@ -54,7 +54,7 @@ fluidPage(
                          choices=c('Yes','No')),
              textInput("zip", "If Yes please enter your zipcode"),
              selectInput("major", "Any thouught about major?", 
-                         choices=c('Undecided','Math & Nautural Science','Social Science','Econ, Accounting and Business','Engineering'))),column(7,plotOutput('cPlot'),plotOutput('DPlot',click = "pc")),column(2,verbatimTextOutput("intro"))))
+                         choices=c('Undecided','Math & Nautural Science','Social Science','Econ, Accounting and Business','Engineering'))),column(7,plotOutput('cPlot',click = "pc2"),plotOutput('DPlot',click = "pc")),column(2,verbatimTextOutput("intro"))))
     
       )
     )

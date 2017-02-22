@@ -25,7 +25,7 @@ function(input, output) {
   df=reactive({data[order(diff(),decreasing=F),][1:10,]})
   ave=reactive({input$vr+input$mt})
   act=reactive({input$act})
-  diff2=reactive({abs(data$ACTCMMID-aCT())})
+  diff2=reactive({abs(data$ACTCMMID-act())})
   df2=reactive({data[order(diff2(),decreasing=F),][1:10,]})
   score=function(x,y,x1,y1){return((x-x1)^2+(y-y1)^2)}
   name=reactive({as.character(data2$College.Name)[which.min(score(x(),y(),data2[,input$x],data2[,input$y]))]})
@@ -120,12 +120,27 @@ function(input, output) {
       
     })})
   observeEvent(input$pc$x, {
-roll=as.vector(data[data$College.Name==input$pc$x,])
+    f=as.factor(as.character(df2()$College.Name))
+    lvls <- levels(f)
+    nn <- lvls[round(input$pc$x)]
+roll=data[data$College.Name==nn,]
+aroll=apply(roll[,2:6],2,as.character)
 output$intro <- renderText({
-  paste(roll[1:6], sep=",", collapse="\n")
+  paste(aroll, sep=",", collapse="\n")
 })
 
-    })  
+    }) 
+  observeEvent(input$pc2$x, {
+    f=as.factor(as.character(df()$College.Name))
+    lvls <- levels(f)
+    nn <- lvls[round(input$pc2$x)]
+    roll=data[data$College.Name==nn,]
+    aroll=apply(roll[,2:6],2,as.character)
+    output$intro <- renderText({
+      paste(aroll, sep=",", collapse="\n")
+    })
+    
+  })  
 
                 output$bPlot <- renderPlot({
                   # Render a barplot
