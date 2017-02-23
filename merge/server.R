@@ -13,57 +13,68 @@ collegedata$Rank <- as.numeric(paste(collegedata$Rank))
 
 
 function(input, output, session) {
-
   
   observe({
     usedcolor <- "red"
     
     tuition <- as.numeric(input$tuition)
     Rank2 <- as.numeric(input$Rank)
-     
-    data<- filter(collegedata,COSTT4_A<=tuition,Rank<=Rank2)
+    SAT <- as.numeric(input$SAT) 
+    adm <- as.numeric(input$adm)
+    data<- filter(collegedata,COSTT4_A<tuition,Rank<Rank2,SAT_AVG<SAT,ADM_RATE<adm)
     radius1 <-data$Arrest*100
     
     
     if(input$color=="Rank"){
       usedcolor <- "blue"
       radius1 <- data$COSTT4_A
+    }else{
+      if(input$color=="population"){
+        usedcolor<- ifelse(input$sex=="men","blue","red") 
+        radius1 <- ifelse(input$sex=="men",data$UGDS_MEN*100000,data$UGDS_WOMEN*100000)
+      }
     }
     
     
-  output$map <- renderLeaflet({
-    
-    leaflet(data=data) %>%
-      addTiles(
-        urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
-        attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>'
-      ) %>%setView(lng = -93.85, lat = 37.45, zoom = 4) %>%
-      clearShapes() %>%
-      addCircles(~longitude, ~latitude, radius=radius1, layerId=~UNITID,
-                 stroke=FALSE, fillOpacity=0.4, fillColor=usedcolor)
-    })
-
-  
-  leafletProxy("map") %>% clearPopups()
-    event <- input$map_shape_click
-    if (is.null(event))
+    output$map <- renderLeaflet({
       
-      return()
+      leaflet(data=data) %>%
+        addTiles(
+          urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
+          attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>'
+        ) %>%setView(lng = -93.85, lat = 37.45, zoom = 4) %>%
+        clearShapes() %>%
+        addCircles(~longitude, ~latitude, radius=radius1, layerId=~UNITID,
+                   stroke=FALSE, fillOpacity=0.4, fillColor=usedcolor)
+    })
     
-    isolate({
+    
+    showZipcodePopup <- function(x, lat, lng) {
+      data <- data[data$UNITID == x,]
       content <- as.character(tagList(
-        tags$h4("University:",as.character(data$INSTNM)),
+        tags$h4("University:",data$INSTNM),
         tags$strong(HTML(sprintf("information"
         ))), tags$br(),
-        sprintf("Rank:%s",as.character(data$Rank)), tags$br(),
-        sprintf("Tuition :%s  (four years)",as.character(data$CO)), tags$br(),
+        sprintf("Rank:%s",data$Rank), tags$br(),
+        sprintf("Tuition :%s  (four years)",data$CO), tags$br(),
         sprintf("Url: %s ",data$INSTURL)
       ))
-      leafletProxy("map") %>% addPopups(lng=event$lng, lat=event$lat, content, layerId = event$id)
+      leafletProxy("map") %>% addPopups(lng, lat, content, layerId =x)
+    }
+    
+    observe({
+      leafletProxy("map") %>% clearPopups()
+      event <- input$map_shape_click
+      if (is.null(event))
+        return()
+      
+      isolate({
+        showZipcodePopup(event$id, event$lat, event$lng)
+      })
     })
+    
+    
   })
-  
-  
   
   ## Data Explorer ###########################################
   output$plot <- renderPlot({
