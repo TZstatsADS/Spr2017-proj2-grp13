@@ -9,7 +9,7 @@ vars <- c(
 )
 var <- c("men"="men","women"="women")
 
-navbarPage("Superzip", id="nav",
+navbarPage("College", id="nav",
            tabPanel("College information map",
                     div(class="outer",
                         

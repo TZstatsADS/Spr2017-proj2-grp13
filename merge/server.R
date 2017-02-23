@@ -5,8 +5,8 @@ library(lattice)
 library(dplyr)
 
 
-collegedata <- read.csv("clean3.csv")
-colnames(collegedata)[4:5] <- c("latitude","longitude")
+collegedata <- read.csv("clean4.csv")
+colnames(collegedata)[c(which(colnames(collegedata)=="LATITUDE"):which(colnames(collegedata)=="LONGITUDE"))] <- c("latitude","longitude")
 collegedata$COSTT4_A <- as.numeric(paste(collegedata$COSTT4_A))
 collegedata$Rank <- as.numeric(paste(collegedata$Rank))
 collegedata$UGDS_MEN <- as.numeric(paste(collegedata$UGDS_MEN))
@@ -28,7 +28,7 @@ function(input, output, session) {
     adm <- as.numeric(input$adm)
     ACT <- as.numeric(input$ACT)
     data<- filter(collegedata,COSTT4_A<tuition,Rank<Rank2,SAT_AVG<SAT,ADM_RATE<adm,ACTCMMID<ACT)
-    radius1 <-data$Arrest.scale*100000
+    radius1 <-data$Arrest*100
     opacity <- 0.8
     
     if(input$color=="Rank"){
@@ -64,6 +64,7 @@ function(input, output, session) {
         tags$strong(HTML(sprintf("information"
         ))), tags$br(),
         sprintf("Rank:%s",data$Rank), tags$br(),
+        sprintf("State: %s   City: %s",data$STABBR,data$CITY),tags$br(),
         sprintf("Tuition :%s  (four years)",data$CO), tags$br(),
         sprintf("Url: %s ",data$INSTURL)
       ))
