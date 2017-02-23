@@ -9,6 +9,11 @@ collegedata <- read.csv("clean3.csv")
 colnames(collegedata)[4:5] <- c("latitude","longitude")
 collegedata$COSTT4_A <- as.numeric(paste(collegedata$COSTT4_A))
 collegedata$Rank <- as.numeric(paste(collegedata$Rank))
+collegedata$UGDS_MEN <- as.numeric(paste(collegedata$UGDS_MEN))
+collegedata$UGDS_WOMEN <- as.numeric(paste(collegedata$UGDS_WOMEN))
+collegedata$SAT_AVG <- as.numeric(paste(collegedata$SAT_AVG))
+collegedata$ADM_RATE <- as.numeric(paste(collegedata$ADM_RATE))
+collegedata$ACTCMMID <- as.numeric(paste(collegedata$ACTCMMID))
 
 
 
@@ -21,17 +26,20 @@ function(input, output, session) {
     Rank2 <- as.numeric(input$Rank)
     SAT <- as.numeric(input$SAT) 
     adm <- as.numeric(input$adm)
-    data<- filter(collegedata,COSTT4_A<tuition,Rank<Rank2,SAT_AVG<SAT,ADM_RATE<adm)
-    radius1 <-data$Arrest*100
-    
+    ACT <- as.numeric(input$ACT)
+    data<- filter(collegedata,COSTT4_A<tuition,Rank<Rank2,SAT_AVG<SAT,ADM_RATE<adm,ACTCMMID<ACT)
+    radius1 <-data$Arrest.scale*100000
+    opacity <- 0.8
     
     if(input$color=="Rank"){
       usedcolor <- "blue"
       radius1 <- data$COSTT4_A
+      opacity <- 0.4
     }else{
       if(input$color=="population"){
         usedcolor<- ifelse(input$sex=="men","blue","red") 
         radius1 <- ifelse(input$sex=="men",data$UGDS_MEN*100000,data$UGDS_WOMEN*100000)
+        opacity <- 0.6
       }
     }
     
@@ -45,7 +53,7 @@ function(input, output, session) {
         ) %>%setView(lng = -93.85, lat = 37.45, zoom = 4) %>%
         clearShapes() %>%
         addCircles(~longitude, ~latitude, radius=radius1, layerId=~UNITID,
-                   stroke=FALSE, fillOpacity=0.4, fillColor=usedcolor)
+                   stroke=FALSE, fillOpacity=opacity, fillColor=usedcolor)
     })
     
     

@@ -10,7 +10,6 @@ vars <- c(
 var <- c("men"="men","women"="women")
 
 navbarPage("Superzip", id="nav",
-
            tabPanel("College information map",
                     div(class="outer",
                         
@@ -28,9 +27,10 @@ navbarPage("Superzip", id="nav",
                                       
                                       h2("College"),
                                       
-                                      sliderInput("Rank","Rank",min = 1,max = 300,value = 50),
-                                      sliderInput("tuition","tuition",min = 6000,max=80000,value =40000),
+                                      sliderInput("Rank","Rank",min = 1,max = 300,value = 300),
+                                      sliderInput("tuition","tuition",min = 6000,max=80000,value =80000),
                                       sliderInput("SAT","SAT",min = 900,max=1600,value =1600),
+                                      sliderInput("ACT","ACT",min = 12,max=36,value =36),
                                       sliderInput("adm","admission rate",min = 0,max=1,value =1),
                                       selectInput("color", "color", vars),
                                       conditionalPanel("input.color == 'population'",
@@ -44,6 +44,7 @@ navbarPage("Superzip", id="nav",
                         )
                     )
            ),
+           
 ###########################
    tabPanel("University Information Conty Summary",
          fluidRow(
