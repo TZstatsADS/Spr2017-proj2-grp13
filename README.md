@@ -44,9 +44,12 @@ https://jasonzishuoli.shinyapps.io/merge/
 * Data processed by Ke HAN, Kexin Nie and Chengceng ZHOU.
 * tab_map: Created by Zishuo Li. 
 * tab_student info: Created by Ke HAN.
+* tab_univresity info: Created by Ke HAN, prototype and final version.
 * tab_countyinfo: Created by Ke HAN.
 * tab_best value university: Created by Yu SHAN.
 * tab_university recommendation: Created by Yu SHAN.
+* tab_student laon: Created by Kexin NIE
+
  
 
 
