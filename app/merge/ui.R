@@ -10,6 +10,8 @@ vars <- c(
 var <- c("men"="men","women"="women")
 
 navbarPage("College", id="nav",
+           
+###############tab map##############
            tabPanel("College information map",
                     div(class="outer",
                         
@@ -45,8 +47,8 @@ navbarPage("College", id="nav",
                     )
            ),
            
-###########################
-   tabPanel("University Information Conty Summary",
+###############tab university information on county level summary############
+   tabPanel("University Information County Summary",
          fluidRow(
            column(12,
                   h5("Create univerisity summarization graphic with information from the 2015 data.gov."),
@@ -68,7 +70,7 @@ navbarPage("College", id="nav",
    ),
 
 
-#######################################
+###################tab student information analytics####################
 
 tabPanel("Student Information",
          fluidRow(
