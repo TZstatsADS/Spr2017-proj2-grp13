@@ -16,6 +16,12 @@ The merge directory shows how the whole shiny app is assembled.
     Created by Ke HAN, prototype and final version. Data processed by Ke HAN, Kexin Nie and Chengceng ZHOU.
     
     Information tab, showing the analytics graphic of the student.
+
+* tab_univresity info
+    
+    Created by Ke HAN, prototype and final version.
+    
+    Information tab, showing the university infomation in rader plot.
     
 * tab_countyinfo
 
