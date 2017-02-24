@@ -14,7 +14,7 @@ collegedata$UGDS_WOMEN <- as.numeric(paste(collegedata$UGDS_WOMEN))
 collegedata$SAT_AVG <- as.numeric(paste(collegedata$SAT_AVG))
 collegedata$ADM_RATE <- as.numeric(paste(collegedata$ADM_RATE))
 collegedata$ACTCMMID <- as.numeric(paste(collegedata$ACTCMMID))
-#可以用！！！
+#å¯ä»¥ç¨ï¼ï¼ï¼
 yushandata<-read.csv("CleanDataFinal.csv")
 
 
@@ -29,21 +29,21 @@ function(input, output, session) {
     SAT <- as.numeric(input$SAT) 
     adm <- as.numeric(input$adm)
     ACT <- as.numeric(input$ACT)
-    data<- filter(collegedata,COSTT4_A<tuition,Rank<Rank2,SAT_AVG<SAT,ADM_RATE<adm,ACTCMMID<ACT)
-    radius1 <-data$Arrest*100
+    lidata<- filter(collegedata,COSTT4_A<tuition,Rank<Rank2,SAT_AVG<SAT,ADM_RATE<adm,ACTCMMID<ACT)
+    radius1 <-lidata$Arrest*100
     opacity <- 0.8
     
     if(input$color=="Rank"){
       usedcolor <- "green"
-      radius1 <- data$COSTT4_A
+      radius1 <- lidata$COSTT4_A
       opacity <- 0.4
     }else if(input$color=="population"){
       usedcolor<- ifelse(input$sex=="men","blue","red") 
-      radius1 <- ifelse(input$sex=="men",data$UGDS_MEN*100000,data$UGDS_WOMEN*100000)
+      radius1 <- ifelse(input$sex=="men",lidata$UGDS_MEN*100000,lidata$UGDS_WOMEN*100000)
       opacity <- 0.6
     }else if(input$color=="ttpopulation"){
       usedcolor <- "blue"
-      radius1 <- data$UGDS*2
+      radius1 <- lidata$UGDS*2
       opacity <- 0.5
     }
     
@@ -51,7 +51,7 @@ function(input, output, session) {
     
     output$map <- renderLeaflet({
       
-      leaflet(data=data) %>%
+      leaflet(data=lidata) %>%
         addTiles(
           urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
           attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>'
@@ -63,16 +63,16 @@ function(input, output, session) {
     
     
     showZipcodePopup <- function(x, lat, lng) {
-      data <- data[data$UNITID == x,]
+      lidata <- lidata[lidata$UNITID == x,]
       content <- as.character(tagList(
-        tags$h4("University:",data$INSTNM),
+        tags$h4("University:",lidata$INSTNM),
         tags$strong(HTML(sprintf("information"
         ))), tags$br(),
-        sprintf("Rank:%s",data$Rank), tags$br(),
-        sprintf("State: %s   City: %s",data$STABBR,data$CITY),tags$br(),
-        sprintf("Cost :%s  (four years)",data$CO), tags$br(),
-        sprintf("Url: %s ",data$INSTURL),tags$br(),
-        sprintf("Arrested in 2016: %s",data$Arrest)
+        sprintf("Rank:%s",lidata$Rank), tags$br(),
+        sprintf("State: %s   City: %s",lidata$STABBR,lidata$CITY),tags$br(),
+        sprintf("Cost :%s  (four years)",lidata$CO), tags$br(),
+        sprintf("Url: %s ",lidata$INSTURL),tags$br(),
+        sprintf("Arrested in 2016: %s",lidata$Arrest)
       ))
       leafletProxy("map") %>% addPopups(lng, lat, content, layerId =x)
     }
@@ -154,4 +154,3 @@ function(input, output, session) {
   })
   
 }
-
