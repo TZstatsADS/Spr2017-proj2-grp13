@@ -3,10 +3,9 @@ transpose<-read.csv("transpose.csv")
 
 # Choices for drop-downs
 vars <- c(
-  "Tuition" = "Rank",
+  "Rank" = "Rank",
   "violence" = "violence",
-  "population ratio"="population",
-  "population"="ttpopulation"
+  "population ratio"="population"
 )
 var <- c("men"="men","women"="women")
 
@@ -77,13 +76,13 @@ tabPanel("Student Information",
                   h5("Hi, could you tell me a little bit about yourself? 
                      Then we would be able to provide some analysis and related information about college for you.")
                   ),
-           column(4,sliderInput("wr",label = h5("SAT Writing Score"),min=2,max=8,value=6)
+           column(4,sliderInput("wr",label = h5("SAT Eassy"),min=2,max=8,value=6)
            ),
-           column(4,sliderInput("vr",label = h5("SAT Reading Score"),min=200,max=800,value=500)
+           column(4,sliderInput("vr",label = h5("SAT Reading Score"),min=200,max=800,value=500,step=10)
            ),
-           column(4,sliderInput("mt",label = h5("SAT Math Score"),min=200,max=800,value=500)
+           column(4,sliderInput("mt",label = h5("SAT Math Score"),min=200,max=800,value=500,step=10)
            ),
-           column(4,sliderInput("act",label = h5("ACT Score"),min=20,max=35,value=10)
+           column(4,sliderInput("act",label = h5("ACT Score"),min=20,max=35,value=10,step=1)
                   
            ),
            column(4,sliderInput("gpa",label = h5("GPA Score"),min=0,max=4,value=3)
@@ -106,17 +105,38 @@ tabPanel("Student Information",
          hr(),
          
          fluidRow(
-           column(3, plotOutput('raderplot', height = 500),column(5,plotOutput('cPlot',click = "pc2")))
+           column(3, plotOutput('raderplot')),column(3,plotOutput('cPlot',click = "pc2")), column(3,plotOutput('DPlot',click = "pc"))
          ),
- 
-         fluidRow(
-           column(3,plotOutput('DPlot',click = "pc"))
-         ),
+
          fluidRow(
            p(class = 'text-center', downloadButton('x3', 'Download Filtered Data'))
          )
 
 ),
+tabPanel( 'tab1'  ,   fluidRow(
+  
+  column(3,sliderInput("rank", label = h3("School Rank"), min = 0, 
+                       max = 100, value = 50),
+         hr(),
+         selectInput("var", "Varibles", 
+                     choices=names(collegedata)[c(9:33)]),
+         hr(),
+         hr(),
+         hr(),
+         hr(),
+         hr(),
+         hr(),
+         hr(),
+         
+         selectInput("x", "x axis", 
+                     choices=names(collegedata)[c(7:32)]),
+         
+         selectInput("y", "y axis", 
+                     choices=names(collegedata)[c(7:32)])),column(8,plotOutput("bPlot"),     plotOutput("sPlot", hover = "ho"),  actionButton("go", "Find the best valued University"),
+                                                            verbatimTextOutput("info"),
+                                                            textOutput("text1")))),
+
+  #tabPanel("Best Valued Schools",fluidRow(column()))
   conditionalPanel("false", icon("crosshair"))
 
 )

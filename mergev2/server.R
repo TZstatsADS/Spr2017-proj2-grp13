@@ -33,14 +33,36 @@ function(input, output, session) {
   data$all25=data$SATVR25+data$SATMT25
   data$all50=data$SATVRMID+data$SATMTMID
   data$all75=data$SATVR75+data$SATMT75
-  diff=reactive({abs(data$SAT_AVG-ave())})
-  df=reactive({data[order(diff(),decreasing=F),][1:10,]})
   ave=reactive({input$vr+input$mt})
   act=reactive({input$act})
+  diff=reactive({abs(data$SAT_AVG-ave())})
+  df=reactive({data[order(diff(),decreasing=F),][1:10,]})
+
   diff2=reactive({abs(data$ACTCMMID-act())})
   df2=reactive({data[order(diff2(),decreasing=F),][1:10,]})
   score=function(x,y,x1,y1){return((x-x1)^2+(y-y1)^2)}
   name=reactive({as.character(data2$College.Name)[which.min(score(x(),y(),data2[,input$x],data2[,input$y]))]})
+  observeEvent(input$go, {
+    if(input$x!=input$y){
+      bool=rep(0,length(data$INSTNM))
+      bool[as.numeric(names(sort(model()$residuals,decreasing = T)[1:5]))]=1
+      data$bool=bool
+      
+      output$sPlot <- renderPlot({
+        # Render a barplot
+        
+        ggplot(data=data, aes(x=data[,input$x], y=data[,input$y],size=factor(bool),fill=factor(bool),colour=factor(bool)))+
+          geom_point()  + theme(axis.text.x=element_text(angle = -90, hjust = 0))+ylab(input$y)+labs(fill='best value')+xlab(input$x)+ylab(input$y)
+        
+      })
+      
+      output$text1 <- renderText({ 
+        paste(best.valued(), sep=",", collapse="")
+      })
+    }
+  })
+  
+  
   observe({
     usedcolor <- "red"
     
@@ -54,18 +76,16 @@ function(input, output, session) {
     opacity <- 0.8
     
     if(input$color=="Rank"){
-      usedcolor <- "green"
+      usedcolor <- "blue"
       radius1 <- data$COSTT4_A
       opacity <- 0.4
-    }else if(input$color=="population"){
+    }else{
+      if(input$color=="population"){
         usedcolor<- ifelse(input$sex=="men","blue","red") 
         radius1 <- ifelse(input$sex=="men",data$UGDS_MEN*100000,data$UGDS_WOMEN*100000)
         opacity <- 0.6
-    }else if(input$color=="ttpopulation"){
-        usedcolor <- "blue"
-        radius1 <- data$UGDS*2
-        opacity <- 0.5
       }
+    }
     
     
     output$map <- renderLeaflet({
@@ -79,8 +99,99 @@ function(input, output, session) {
         addCircles(~longitude, ~latitude, radius=radius1, layerId=~UNITID,
                    stroke=FALSE, fillOpacity=opacity, fillColor=usedcolor)
     })
-    
-    
+    observeEvent(input$pc$x, {
+      f=as.factor(as.character(df2()$INSTNM))
+      lvls <- levels(f)
+      nn <- lvls[round(input$pc$x)]
+      roll=data[data$INSTNM==nn,]
+      aroll=apply(roll[,2:4],2,as.character)
+      output$intro <- renderText({
+        paste(aroll, sep=",", collapse="\n")
+      })
+      
+    }) 
+    observeEvent(input$pc2$x, {
+      f=as.factor(as.character(df()$INSTNM))
+      lvls <- levels(f)
+      nn <- lvls[round(input$pc2$x)]
+      roll=data[data$INSTNM==nn,]
+      aroll=apply(roll[,2:4],2,as.character)
+      output$intro <- renderText({
+        paste(aroll, sep=",", collapse="\n")
+      })
+      
+    })  
+    observeEvent(input$x, {
+      
+      bool=rep(0,length(data$INSTNM))
+      bool[as.numeric(names(sort(model()$residuals,decreasing = T)[1:5]))]=1
+      data$bool=bool
+      output$sPlot <- renderPlot({
+        # Render a barplot
+        
+        
+        ggplot(data=data, aes(x=input$x, y=input$y,size=InverseRank,colour=Rank))+
+          geom_point()  + theme(axis.text.x=element_text(angle = -90, hjust = 0))+ylab(input$y)+scale_colour_gradient(low="blue", high="black",limit=(c(0,200)))+labs(fill='Rank')+xlab(input$x)+ylab(input$y)
+      })
+      output$text1 <- renderText({ 
+        ''
+      })
+    })
+    observeEvent(input$y, {
+      
+      bool=rep(0,length(data$INSTNM))
+      bool[as.numeric(names(sort(model()$residuals,decreasing = T)[1:5]))]=1
+      data$bool=bool
+      output$sPlot <- renderPlot({
+        # Render a barplot
+        
+        
+        ggplot(data=data, aes(x=input$x, y=input$y,size=InverseRank,colour=Rank))+
+          geom_point()  + theme(axis.text.x=element_text(angle = -90, hjust = 0))+ylab(input$y)+scale_colour_gradient(low="blue", high="black",limit=(c(0,200)))+labs(fill='Rank')+xlab(input$x)+ylab(input$y)
+      })
+      output$text1 <- renderText({ 
+        ''
+      })
+    })
+    observeEvent(input$mt, {
+      ave=reactive({input$vr+input$mt})
+      data$all25=data$SATVR25+data$SATMT25
+      data$all50=data$SATVRMID+data$SATMTMID
+      data$all75=data$SATVR75+data$SATMT75
+      diff=reactive({abs(data$SAT_AVG-ave())})
+      df=reactive({data[order(diff()),][1:10,]})
+      output$cPlot <- renderPlot({
+        # Render a barplot
+        ggplot(data=df(), aes(x=factor(INSTNM),ymin=400,ymax=1600,lower=all25,middle=all50,upper=all75))+
+          geom_boxplot(stat="identity")+ theme(axis.text.x=element_text(angle = -90, hjust = 0))+ylab('SAT')+scale_fill_gradient(low="white", high="blue",limit=(c(400, 1600)))+ylim(400,1600)+labs(fill='SAT')+xlab('College Name')+
+          geom_hline(yintercept=ave())
+        
+      })})
+    observeEvent(input$vr, {
+      ave=reactive({input$vr+input$mt})
+      data$all25=data$SATVR25+data$SATMT25
+      data$all50=data$SATVRMID+data$SATMTMID
+      data$all75=data$SATVR75+data$SATMT75
+      diff=reactive({abs(data$SAT_AVG-ave())})
+      df=reactive({data[order(diff()),][1:10,]})
+      output$cPlot <- renderPlot({
+        # Render a barplot
+        ggplot(data=df(), aes(x=factor(INSTNM),ymin=400,ymax=1600,lower=all25,middle=all50,upper=all75))+
+          geom_boxplot(stat="identity")+ theme(axis.text.x=element_text(angle = -90, hjust = 0))+ylab('SAT')+scale_fill_gradient(low="white", high="blue",limit=(c(400, 1600)))+ylim(400,1600)+labs(fill='SAT')+xlab('College Name')+
+          geom_hline(yintercept=ave())
+        
+      })})
+    observeEvent(input$act, {
+      act=reactive({input$act})
+      diff2=reactive({abs(data$ACTCMMID-act())})
+      df2=reactive({data[order(diff2(),decreasing=F),][1:10,]})
+      output$DPlot <- renderPlot({
+        # Render a barplot
+        ggplot(data=df2(), aes(x=factor(INSTNM),ymin=0,ymax=32,lower=ACTCM25,middle=ACTCMMID,upper=ACTCM75))+
+          geom_boxplot(stat="identity")+ theme(axis.text.x=element_text(angle = -90, hjust = 0))+ylab('SAT')+scale_fill_gradient(low="white", high="blue",limit=(c(0, 32)))+ylim(0,32)+labs(fill='ACT')+xlab('College Name')+
+          geom_hline(yintercept=act())
+        
+      })})
     showZipcodePopup <- function(x, lat, lng) {
       data <- data[data$UNITID == x,]
       content <- as.character(tagList(
@@ -89,22 +200,17 @@ function(input, output, session) {
         ))), tags$br(),
         sprintf("Rank:%s",data$Rank), tags$br(),
         sprintf("State: %s   City: %s",data$STABBR,data$CITY),tags$br(),
-        sprintf("Cost :%s  (four years)",data$CO), tags$br(),
-        sprintf("Url: %s ",data$INSTURL),tags$br(),
-        sprintf("Arrested in 2016: %s",data$Arrest)
+        sprintf("Tuition :%s  (four years)",data$CO), tags$br(),
+        sprintf("Url: %s ",data$INSTURL)
       ))
       leafletProxy("map") %>% addPopups(lng, lat, content, layerId =x)
     }
-    
-   
     
     observe({
       leafletProxy("map") %>% clearPopups()
       event <- input$map_shape_click
       if (is.null(event))
         return()
-      
-      
       
       isolate({
         showZipcodePopup(event$id, event$lat, event$lng)
@@ -184,6 +290,26 @@ function(input, output, session) {
       geom_boxplot(stat="identity")+ theme(axis.text.x=element_text(angle = -90, hjust = 0))+ylab('ACT')+scale_fill_gradient(low="white", high="blue",limit=(c(0, 32)))+ylim(0,32)+labs(fill='SAT')+xlab('College Name')+
       geom_hline(yintercept=act())
     
+  })
+  output$bPlot <- renderPlot({
+    # Render a barplot
+    ggplot(data=data[c(input$rank:(input$rank+10)),], aes(x=data[c(input$rank:(input$rank+10)),][,'INSTNM'], y=data[c(input$rank:(input$rank+10)),][,input$var],fill=data[c(input$rank:(input$rank+10)),][,input$var]))+
+      geom_bar(stat="identity")+ theme(axis.text.x=element_text(angle = -90, hjust = 0))+ylab(input$var)+scale_fill_gradient(low="white", high="blue",limit=(c(ylim2(), ylim1())))+ylim(0, ylim1())+labs(fill=input$var)+xlab('College Name')
+  })
+  output$sPlot <- renderPlot({
+    # Render a barplot
+    
+    ggplot(data=data, aes(x=data[,input$x], y=data[,input$y],size=InverseRank,colour=Rank))+
+      geom_point()  + theme(axis.text.x=element_text(angle = -90, hjust = 0))+ylab(input$y)+scale_colour_gradient(low="blue", high="black",limit=(c(0,200)))+labs(fill='Rank')+xlab(input$x)+ylab(input$y)
+  })
+  output$text1 <- renderText({ 
+    ''
+  })
+  output$info <- renderText({
+    name()
+  })
+  output$intro <- renderText({
+    ''
   })
   
 }
