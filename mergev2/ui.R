@@ -3,9 +3,10 @@ transpose<-read.csv("transpose.csv")
 
 # Choices for drop-downs
 vars <- c(
-  "Rank" = "Rank",
+  "Tuition" = "Rank",
   "violence" = "violence",
-  "population ratio"="population"
+  "population ratio"="population",
+  "population"="ttpopulation"
 )
 var <- c("men"="men","women"="women")
 
