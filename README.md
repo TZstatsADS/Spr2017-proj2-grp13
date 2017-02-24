@@ -4,6 +4,9 @@
 
 ## US University Recommendation System (Term: Spring 2017)
 
+Current version of the shiny, 
+https://jasonzishuoli.shinyapps.io/merge/
+
 Our goal with this project was to "use of a technique to help high school students finding the most suitable colleges." The question we seek to answer is how visualization of geospatial data can give more context to a well established data set. The technique involved is the development of an R Shiny application using geospatial data and the Leaflet mapping library ("Leaflet for R"). We used the data documentation for college scorecard version 2017, which from collegescorecard.ed.gov, in addition to supplement geospatial data provided by Google. 
 
 ![screenshot](doc/Screen Shot 1.png)
