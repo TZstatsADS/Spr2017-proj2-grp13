@@ -50,7 +50,7 @@ navbarPage("College", id="nav",
 ###############tab university information on county level summary############
    tabPanel("University Information County Summary",
          fluidRow(
-           column(
+           column(12,
                   h5("Create univerisity summarization graphic with information from the 2015 data.gov."),
                   selectInput("var", 
                               label = "Choose a variable to display",
