@@ -90,13 +90,7 @@ tabPanel("Student Information",
            column(4,sliderInput("studentrank",label = h5("Rank %"),min=1,max=100,value=50)
            ),
            column(4,
-                  radioButtons("nearby",label = h5("Do you want to study near school?"),choices = list("Yes"=1,"No"=2))
-           ),
-           column(4,
-                  textInput("postalcode",label = h5("Postal code"),value = "Only 5 digit number...")
-           ),
-           column(4,
-                  sliderInput("moneywillingness",label = h5("Money paid by year"),min=1000,max=50000,value=30000)
+                  sliderInput("moneywillingness",label = h5("Money paid by year"),min=1000,max=80000,value=30000)
            )
            ),
          

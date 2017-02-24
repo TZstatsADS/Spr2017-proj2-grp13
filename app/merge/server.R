@@ -129,7 +129,7 @@ function(input, output, session) {
   output$raderplot <- renderPlot({
     library(fmsb)
     #   input$satmath,input$satessay,input$satreading,input$actscore,input$moneywillingness,input$gpascore,input$studentrank
-    data=data.frame(input$satmath/8,input$satessay/8*100,input$satreading/8,input$actscore/35*100,input$moneywillingness/500,input$gpascore/4*100,input$studentrank)
+    data=data.frame(input$satmath/8,input$satessay/8*100,input$satreading/8,input$actscore/35*100,input$moneywillingness/800,input$gpascore/4*100,input$studentrank)
     colnames(data)=c("SAT math" , "SAT essay" , "SAT reading", "ACT" , "Financials", "GPA" ,"Rank" )
     data=rbind(rep(100,7) , rep(0,7) , data)
     # default       radarchart(data)
