@@ -7,19 +7,36 @@ The merge directory shows how the whole shiny app is assembled.
 
 * tab_map
 
+    Created by Zishuo Li, prototype and final version. Data processed by Ke HAN, Kexin Nie and Chengceng ZHOU.
+
     Map tab, is a interactive map showing the university information, and the selectbutton and sliderbar can show the schools meeting certain criteria.
 
 * tab_student info
     
+    Created by Ke HAN, prototype and final version. Data processed by Ke HAN, Kexin Nie and Chengceng ZHOU.
+    
     Information tab, showing the analytics graphic of the student.
+    
+* tab_countyinfo
 
-* tab_student loan
+     Created by Ke HAN, prototype and final version. Data processed by Ke HAN.
+    
+
+* tab_student_loan
+    
+    Created by Kexin NIE, prototype and final version. Data processed by Kexin Nie.
 
     Student loan tab, showing the student loan information for different school.
 
-* tab_barplot
+* tab_barplot (2 tabs included)
 
-    This is a plot time. Plot tells you which would be a great choice for applying university. Those opporunity in detect leakage?
+    Created by Yu SHAN, prototype and final version. Data processed by Ke HAN, Kexin Nie and Chengceng ZHOU.
+    
+    This is a plot time. Plot tells you which would be a great choice for applying university. Detect the leakage opporunity.
 
+    
+    
+    
+    
     to be continue
 
