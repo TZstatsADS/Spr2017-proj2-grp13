@@ -26,18 +26,18 @@ Our goal with this project was to "use of a technique to help high school studen
 Since more and more people are seeking for a college degree nowaday, choosing the right schools is significant for them. There are many eduacation institutes that aim to help with college application. Our Shiny App will help them gather efficiant information about colleges and do better in college-application consulting.
 - data cleaning
 
-We obtained our data from college scorecard at data.gov. We only selected the partial data that we need and merge them with recent college ranking data from USNews.
+  We obtained our data from college scorecard at data.gov. We only selected the partial data that we need and merge them with recent college ranking data from USNews.
 - data visualization
 
-Maps, radar plot
+  Maps, radar plot
 - systems development/design life cycle
 
-Users can easily access school information and choose schools that are suitable for them to apply. It is also easy to compare schools contrywide. 
+  Users can easily access school information and choose schools that are suitable for them to apply. It is also easy to compare schools contrywide. 
 
 - shiny app/shiny server
 
 https://jasonzishuoli.shinyapps.io/merge/
-+ **Contribution statement**: All team members contributed equally in all stages of this project. All team members approve our work presented in this GitHub repository including this contributions statement. 
++ **Contribution statement**: All team members contributed, the main coder for each tab can be found below. All team members approve our work presented in this GitHub repository including this contributions statement. 
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
