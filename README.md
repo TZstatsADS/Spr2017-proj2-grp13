@@ -7,6 +7,8 @@
 Current version of the shiny, 
 https://jasonzishuoli.shinyapps.io/merge/
 
+https://jasonzishuoli.shinyapps.io/mergedebug/
+
  
 
 ![screenshot](doc/Screen Shot 1.png)
