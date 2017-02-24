@@ -14,7 +14,7 @@ collegedata$UGDS_WOMEN <- as.numeric(paste(collegedata$UGDS_WOMEN))
 collegedata$SAT_AVG <- as.numeric(paste(collegedata$SAT_AVG))
 collegedata$ADM_RATE <- as.numeric(paste(collegedata$ADM_RATE))
 collegedata$ACTCMMID <- as.numeric(paste(collegedata$ACTCMMID))
-#å¯ä»¥ç¨ï¼ï¼ï¼
+#
 
 data1<-read.csv('CleanDataFinal.csv', na.strings = "NULL")
 data1[is.na(data1)]=0
