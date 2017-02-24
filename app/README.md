@@ -1,5 +1,7 @@
 # Project: University Recommendation Systerm
 ### App folder
 
-Upload ui.r and server.r file here.
+For each tab, there is a folder, the sepecific feature can be seen.
+
+The merge directory shows how the whole shiny app is assembled.
 
