@@ -44,76 +44,7 @@ navbarPage("College", id="nav",
                                  'Data compiled for ', tags$em('Coming Apart: The State of White America, 1960–2010'), ' by Charles Murray (Crown Forum, 2012).'
                         )
                     )
-           ),
-           
-           ###############tab loan###
-           
-           tabPanel("Student Loan",
-                    
-                    googleChartsInit(),
-                    
-                    # Use the Google webfont "Source Sans Pro"
-                    tags$link(
-                      href=paste0("http://fonts.googleapis.com/css?",
-                                  "family=Source+Sans+Pro:300,600,300italic"),
-                      rel="stylesheet", type="text/css"),
-                    tags$style(type="text/css",
-                               "body {font-family: 'Source Sans Pro'}"
-                    ),
-                    
-                    h2("Student loans and earnings info"),
-                      
-                      hr(),
-                      googleBubbleChart("chart",
-                                        width="90%", height = "800px",
-                                        
-                                        options = list(
-                                          fontName = "Source Sans Pro",
-                                          fontSize = 13,
-                                          # Set axis labels and ranges
-                                          hAxis = list(
-                                            title = "Median amount of debt($)",
-                                            viewWindow = list(min = 2000 ,max = max(na.omit(data1$morethan75000)) + 5000)
-                                          ),
-                                          vAxis = list(
-                                            title = "Mean amount of earnings($)",
-                                            viewWindow = list(min = min(na.omit(data1$after6years))-10000,max = 70000 )
-                                          ),
-                                          # The default padding is a little too spaced out
-                                          chartArea = list(
-                                            top = 50, left = 75,
-                                            height = "75%", width = "75%"
-                                          ),
-                                          # Allow pan/zoom
-                                          explorer = list(),
-                                          # Set bubble visual props
-                                          bubble = list(
-                                            opacity = 0.4, stroke = "none",
-                                            # Hide bubble label
-                                            textStyle = list(
-                                              color = "none"
-                                            )
-                                          ),
-                                          # Set fonts
-                                          titleTextStyle = list(
-                                            fontSize = 16
-                                          ),
-                                          tooltip = list(
-                                            textStyle = list(
-                                              fontSize = 12
-                                            )
-                                          )
-                                        )
-                      ),
-                      
-                      fluidRow(
-                        shiny::column(4, offset = 4,
-                                      selectInput('state', 'State',levels(data1$STATE) )
-                                      
-                        )
-                        
-                      )
-                    ),           
+           ),        
 ###############tab university information on county level summary############
    tabPanel("University Information County Summary",
          fluidRow(
@@ -139,39 +70,98 @@ navbarPage("College", id="nav",
 
 tabPanel("Student Information",
          fluidRow(
-           column(12,
-                  h5("Hi, could you tell me a little bit about yourself? 
-                     Then we would be able to provide some analysis and related information about college for you.")
-                  ),
-           column(4,sliderInput("satessay",label = h5("SAT Essay Score"),min=2,max=8,value=6)
+           shiny::column(6, offset = 14,
+                         h5("Hi, could you tell me a little bit about yourself? 
+                     Then we would be able to provide some analytics for you.")),
+           sliderInput("satessay",label = h5("SAT Essay Score"),min=2,max=8,value=6),
+           sliderInput("satreading",label = h5("SAT Reading Score"),min=200,max=800,value=500),
+           sliderInput("satmath",label = h5("SAT Math Score"),min=200,max=800,value=500),
+           sliderInput("actscore",label = h5("ACT Score"),min=20,max=35,value=10),
+           sliderInput("gpascore",label = h5("GPA Score"),min=0,max=4,value=3),
+           sliderInput("studentrank",label = h5("Rank %"),min=1,max=100,value=50),
+           sliderInput("moneywillingness",label = h5("Money paid by year"),min=1000,max=80000,value=30000)
            ),
-           column(4,sliderInput("satreading",label = h5("SAT Reading Score"),min=200,max=800,value=500)
-           ),
-           column(4,sliderInput("satmath",label = h5("SAT Math Score"),min=200,max=800,value=500)
-           ),
-           column(4,sliderInput("actscore",label = h5("ACT Score"),min=20,max=35,value=10)
-                  
-           ),
-           column(4,sliderInput("gpascore",label = h5("GPA Score"),min=0,max=4,value=3)
-           ),
-           column(4,sliderInput("studentrank",label = h5("Rank %"),min=1,max=100,value=50)
-           ),
-           column(4,
-                  sliderInput("moneywillingness",label = h5("Money paid by year"),min=1000,max=80000,value=30000)
-           )
-           ),
-         
-         
          
          hr(),
          
          fluidRow(
-           column(6, plotOutput('raderplot', height = 500))
-         ),
-         fluidRow(
-           p(class = 'text-center', downloadButton('x3', 'Download Filtered Data'))
-         )
+           shiny::column(6, offset = 2,
+                         plotOutput('raderplot', height = 500) )
+           )
 ),
+######################################
+
+
+
+###############tab loan###
+
+tabPanel("Student Loan",
+         
+         googleChartsInit(),
+         
+         # Use the Google webfont "Source Sans Pro"
+         tags$link(
+           href=paste0("http://fonts.googleapis.com/css?",
+                       "family=Source+Sans+Pro:300,600,300italic"),
+           rel="stylesheet", type="text/css"),
+         tags$style(type="text/css",
+                    "body {font-family: 'Source Sans Pro'}"
+         ),
+         
+         h5("Student loans and earnings info"),
+         
+         hr(),
+         googleBubbleChart("chart",
+                           width="90%", height = "500px",
+                           
+                           options = list(
+                             fontName = "Source Sans Pro",
+                             fontSize = 13,
+                             # Set axis labels and ranges
+                             hAxis = list(
+                               title = "Median amount of debt($)",
+                               viewWindow = list(min = 2000 ,max = max(na.omit(data1$morethan75000)) + 5000)
+                             ),
+                             vAxis = list(
+                               title = "Mean amount of earnings($)",
+                               viewWindow = list(min = min(na.omit(data1$after6years))-10000,max = 70000 )
+                             ),
+                             # The default padding is a little too spaced out
+                             chartArea = list(
+                               top = 50, left = 75,
+                               height = "75%", width = "75%"
+                             ),
+                             # Allow pan/zoom
+                             explorer = list(),
+                             # Set bubble visual props
+                             bubble = list(
+                               opacity = 0.4, stroke = "none",
+                               # Hide bubble label
+                               textStyle = list(
+                                 color = "none"
+                               )
+                             ),
+                             # Set fonts
+                             titleTextStyle = list(
+                               fontSize = 16
+                             ),
+                             tooltip = list(
+                               textStyle = list(
+                                 fontSize = 12
+                               )
+                             )
+                           )
+         ),
+         
+         fluidRow(
+           shiny::column(4, offset = 4,
+                         selectInput('state', 'State',levels(data1$STATE) )
+                         
+           )
+           
+         )
+),   
+################################
   conditionalPanel("false", icon("crosshair"))
 
 )
