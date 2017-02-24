@@ -20,10 +20,10 @@ https://jasonzishuoli.shinyapps.io/merge/
 
 + Project Goals
 
-Our goal with this project was to "use of a technique to help high school students finding the most suitable colleges." The question we seek to answer is how visualization of geospatial data can give more context to a well established data set. The technique involved is the development of an R Shiny application using geospatial data and the Leaflet mapping library ("Leaflet for R"). We used the data documentation for college scorecard version 2017, which from collegescorecard.ed.gov, in addition to supplement geospatial data provided by Google.
+  Our goal with this project was to "use of a technique to help high school students finding the most suitable colleges." The question we seek to answer is how visualization of geospatial data can give more context to a well established data set. The technique involved is the development of an R Shiny application using geospatial data and the Leaflet mapping library ("Leaflet for R"). We used the data documentation for college scorecard version 2017, which from collegescorecard.ed.gov, in addition to supplement geospatial data provided by Google.
 - business intelligence for data science
 
-Since more and more people are seeking for a college degree nowaday, choosing the right schools is significant for them. There are many eduacation institutes that aim to help with college application. Our Shiny App will help them gather efficiant information about colleges and do better in college-application consulting.
+  Since more and more people are seeking for a college degree nowaday, choosing the right schools is significant for them. There are many eduacation institutes that aim to help with college application. Our Shiny App will help them gather efficiant information about colleges and do better in college-application consulting.
 - data cleaning
 
   We obtained our data from college scorecard at data.gov. We only selected the partial data that we need and merge them with recent college ranking data from USNews.
