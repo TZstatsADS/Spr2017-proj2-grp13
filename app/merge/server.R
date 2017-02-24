@@ -14,7 +14,8 @@ collegedata$UGDS_WOMEN <- as.numeric(paste(collegedata$UGDS_WOMEN))
 collegedata$SAT_AVG <- as.numeric(paste(collegedata$SAT_AVG))
 collegedata$ADM_RATE <- as.numeric(paste(collegedata$ADM_RATE))
 collegedata$ACTCMMID <- as.numeric(paste(collegedata$ACTCMMID))
-
+#可以用！！！
+yushandata<-read.csv("CleanDataFinal.csv")
 
 
 function(input, output, session) {
