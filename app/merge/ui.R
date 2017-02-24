@@ -3,15 +3,14 @@ transpose<-read.csv("transpose.csv")
 
 # Choices for drop-downs
 vars <- c(
-  "Rank" = "Rank",
-  "violence" = "violence",
-  "population ratio"="population"
+  "Tuition" = "Rank",
+  "Arrest" = "violence",
+  "population ratio"="population",
+  "population"="ttpopulation"
 )
 var <- c("men"="men","women"="women")
 
 navbarPage("College", id="nav",
-           
-###############tab map##############
            tabPanel("College information map",
                     div(class="outer",
                         

@@ -18,6 +18,7 @@ collegedata$ACTCMMID <- as.numeric(paste(collegedata$ACTCMMID))
 yushandata<-read.csv("CleanDataFinal.csv")
 
 
+
 function(input, output, session) {
   
   observe({
@@ -33,16 +34,19 @@ function(input, output, session) {
     opacity <- 0.8
     
     if(input$color=="Rank"){
-      usedcolor <- "blue"
+      usedcolor <- "green"
       radius1 <- data$COSTT4_A
       opacity <- 0.4
-    }else{
-      if(input$color=="population"){
-        usedcolor<- ifelse(input$sex=="men","blue","red") 
-        radius1 <- ifelse(input$sex=="men",data$UGDS_MEN*100000,data$UGDS_WOMEN*100000)
-        opacity <- 0.6
-      }
+    }else if(input$color=="population"){
+      usedcolor<- ifelse(input$sex=="men","blue","red") 
+      radius1 <- ifelse(input$sex=="men",data$UGDS_MEN*100000,data$UGDS_WOMEN*100000)
+      opacity <- 0.6
+    }else if(input$color=="ttpopulation"){
+      usedcolor <- "blue"
+      radius1 <- data$UGDS*2
+      opacity <- 0.5
     }
+    
     
     
     output$map <- renderLeaflet({
@@ -66,17 +70,22 @@ function(input, output, session) {
         ))), tags$br(),
         sprintf("Rank:%s",data$Rank), tags$br(),
         sprintf("State: %s   City: %s",data$STABBR,data$CITY),tags$br(),
-        sprintf("Tuition :%s  (four years)",data$CO), tags$br(),
-        sprintf("Url: %s ",data$INSTURL)
+        sprintf("Cost :%s  (four years)",data$CO), tags$br(),
+        sprintf("Url: %s ",data$INSTURL),tags$br(),
+        sprintf("Arrested in 2016: %s",data$Arrest)
       ))
       leafletProxy("map") %>% addPopups(lng, lat, content, layerId =x)
     }
+    
+    
     
     observe({
       leafletProxy("map") %>% clearPopups()
       event <- input$map_shape_click
       if (is.null(event))
         return()
+      
+      
       
       isolate({
         showZipcodePopup(event$id, event$lat, event$lng)
