@@ -130,7 +130,7 @@ tabPanel( 'Best Value University'  ,   fluidRow(
          
          selectInput("y", "y axis", 
                      choices=names(data1)[c(9:33)])),
-  column(7, plotOutput("sPlot", hover = "ho"),  actionButton("go", "Find the best valued University"),
+  column(7, plotOutput("bPlot"),plotOutput("sPlot", hover = "ho"),  actionButton("go", "Find the best valued University"),
                                                             verbatimTextOutput("info"),
                                                             textOutput("text1")))),
 
