@@ -77,21 +77,16 @@ function(input, output, session) {
       leafletProxy("map") %>% addPopups(lng, lat, content, layerId =x)
     }
     
-    
-    
     observe({
       leafletProxy("map") %>% clearPopups()
       event <- input$map_shape_click
       if (is.null(event))
         return()
       
-      
-      
       isolate({
         showZipcodePopup(event$id, event$lat, event$lng)
       })
     })
-    
     
   })
   ######################kexinnie############
@@ -151,7 +146,7 @@ function(input, output, session) {
     )
   })
   
-  ## Data Explorer ###########################################
+  ## map plot###########################################
   library(maps)
   library(mapproj)
   counties <- read.csv("orgi.csv")
@@ -168,15 +163,14 @@ function(input, output, session) {
     
     do.call(percent_map, args)
   })
-  ####################
+  ####################rader plot##############################
   output$raderplot <- renderPlot({
     library(fmsb)
-    #   input$satmath,input$satessay,input$satreading,input$actscore,input$moneywillingness,input$gpascore,input$studentrank
-    data=data.frame(input$satmath/8,input$satessay/8*100,input$satreading/8,input$actscore/35*100,input$moneywillingness/800,input$gpascore/4*100,input$studentrank)
-    colnames(data)=c("SAT math" , "SAT essay" , "SAT reading", "ACT" , "Financials", "GPA" ,"Rank" )
-    data=rbind(rep(100,7) , rep(0,7) , data)
+    raderplotdata=data.frame(input$satmath/8,input$satessay/8*100,input$satreading/8,input$actscore/35*100,input$moneywillingness/800,input$gpascore/4*100,input$studentrank)
+    colnames(raderplotdata)=c("SAT math" , "SAT essay" , "SAT reading", "ACT" , "Financials", "GPA" ,"Rank" )
+    raderplotdata=rbind(rep(100,7) , rep(0,7) , raderplotdata)
     # default       radarchart(data)
-    radarchart( data  , axistype=1 , 
+    radarchart( raderplotdata  , axistype=1 , 
                 #custom polygon
                 pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 , 
                 #custom the grid
