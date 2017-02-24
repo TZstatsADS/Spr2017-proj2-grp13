@@ -39,7 +39,16 @@ https://jasonzishuoli.shinyapps.io/mergedebug/
 - shiny app/shiny server
 
 https://jasonzishuoli.shinyapps.io/merge/
-+ **Contribution statement**: All team members contributed, the main coder for each tab can be found in app folder's readme. All team members approve our work presented in this GitHub repository including this contributions statement. 
++ **Contribution statement**: All team members contributed, summarized as follows. All team members approve our work presented in this GitHub repository including this contributions statement. 
+
+* Data processed by Ke HAN, Kexin Nie and Chengceng ZHOU.
+* tab_map: Created by Zishuo Li. 
+* tab_student info: Created by Ke HAN.
+* tab_countyinfo: Created by Ke HAN.
+* tab_best value university: Created by Yu SHAN.
+* tab_university recommendation: Created by Yu SHAN.
+ 
+
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
 
