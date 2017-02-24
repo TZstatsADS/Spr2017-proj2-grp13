@@ -1,121 +1,189 @@
-library(shiny)
-library(choroplethr)
-library(choroplethrZip)
+library(leaflet)
+library(RColorBrewer)
+library(scales)
+library(lattice)
 library(dplyr)
 
-## Define Manhattan's neighborhood
-man.nbhd=c("all neighborhoods", "Central Harlem", 
-           "Chelsea and Clinton",
-           "East Harlem", 
-           "Gramercy Park and Murray Hill",
-           "Greenwich Village and Soho", 
-           "Lower Manhattan",
-           "Lower East Side", 
-           "Upper East Side", 
-           "Upper West Side",
-           "Inwood and Washington Heights")
-zip.nbhd=as.list(1:length(man.nbhd))
-zip.nbhd[[1]]=as.character(c(10026, 10027, 10030, 10037, 10039))
-zip.nbhd[[2]]=as.character(c(10001, 10011, 10018, 10019, 10020))
-zip.nbhd[[3]]=as.character(c(10036, 10029, 10035))
-zip.nbhd[[4]]=as.character(c(10010, 10016, 10017, 10022))
-zip.nbhd[[5]]=as.character(c(10012, 10013, 10014))
-zip.nbhd[[6]]=as.character(c(10004, 10005, 10006, 10007, 10038, 10280))
-zip.nbhd[[7]]=as.character(c(10002, 10003, 10009))
-zip.nbhd[[8]]=as.character(c(10021, 10028, 10044, 10065, 10075, 10128))
-zip.nbhd[[9]]=as.character(c(10023, 10024, 10025))
-zip.nbhd[[10]]=as.character(c(10031, 10032, 10033, 10034, 10040))
 
-## Load housing data
-load("../output/count.RData")
-load("../output/mh2009use.RData")
+collegedata <- read.csv("clean4.csv")
+colnames(collegedata)[c(which(colnames(collegedata)=="LATITUDE"):which(colnames(collegedata)=="LONGITUDE"))] <- c("latitude","longitude")
+collegedata$COSTT4_A <- as.numeric(paste(collegedata$COSTT4_A))
+collegedata$Rank <- as.numeric(paste(collegedata$Rank))
+collegedata$UGDS_MEN <- as.numeric(paste(collegedata$UGDS_MEN))
+collegedata$UGDS_WOMEN <- as.numeric(paste(collegedata$UGDS_WOMEN))
+collegedata$SAT_AVG <- as.numeric(paste(collegedata$SAT_AVG))
+collegedata$ADM_RATE <- as.numeric(paste(collegedata$ADM_RATE))
+collegedata$ACTCMMID <- as.numeric(paste(collegedata$ACTCMMID))
+#####
+yushandata<-read.csv("CleanDataFinal.csv")
 
-# Define server logic required to draw a histogram
-shinyServer(function(input, output) {
+
+
+function(input, output, session) {
   
-  ## Neighborhood name
-  output$text = renderText({"Selected:"})
-  output$text1 = renderText({
-      paste("{ ", man.nbhd[as.numeric(input$nbhd)+1], " }")
-  })
-  
-  ## Panel 1: summary plots of time trends, 
-  ##          unit price and full price of sales. 
-  
-  output$distPlot <- renderPlot({
+  observe({
+    usedcolor <- "red"
     
-    ## First filter data for selected neighborhood
-    mh2009.sel=mh2009.use
-    if(input$nbhd>0){
-      mh2009.sel=mh2009.use%>%
-                  filter(region %in% zip.nbhd[[as.numeric(input$nbhd)]])
+    tuition <- as.numeric(input$tuition)
+    Rank2 <- as.numeric(input$Rank)
+    SAT <- as.numeric(input$SAT) 
+    adm <- as.numeric(input$adm)
+    ACT <- as.numeric(input$ACT)
+    lidata<- filter(collegedata,COSTT4_A<tuition,Rank<Rank2,SAT_AVG<SAT,ADM_RATE<adm,ACTCMMID<ACT)
+    radius1 <-lidata$Arrest*100
+    opacity <- 0.8
+    
+    if(input$color=="Rank"){
+      usedcolor <- "green"
+      radius1 <- lidata$COSTT4_A
+      opacity <- 0.4
+    }else if(input$color=="population"){
+      usedcolor<- ifelse(input$sex=="men","blue","red") 
+      radius1 <- ifelse(input$sex=="men",lidata$UGDS_MEN*100000,lidata$UGDS_WOMEN*100000)
+      opacity <- 0.6
+    }else if(input$color=="ttpopulation"){
+      usedcolor <- "blue"
+      radius1 <- lidata$UGDS*2
+      opacity <- 0.5
     }
     
-    ## Monthly counts
-    month.v=as.vector(table(mh2009.sel$sale.month))
     
-    ## Price: unit (per sq. ft.) and full
-    type.price=data.frame(bldg.type=c("10", "13", "25", "28"))
-    type.price.sel=mh2009.sel%>%
-                group_by(bldg.type)%>%
-                summarise(
-                  price.mean=mean(sale.price, na.rm=T),
-                  price.median=median(sale.price, na.rm=T),
-                  unit.mean=mean(unit.price, na.rm=T),
-                  unit.median=median(unit.price, na.rm=T),
-                  sale.n=n()
-                )
-    type.price=left_join(type.price, type.price.sel, by="bldg.type")
     
-    ## Making the plots
-    layout(matrix(c(1,1,1,1,2,2,3,3,2,2,3,3), 3, 4, byrow=T))
-    par(cex.axis=1.3, cex.lab=1.5, 
-        font.axis=2, font.lab=2, col.axis="dark gray", bty="n")
+    output$map <- renderLeaflet({
+      
+      leaflet(data=lidata) %>%
+        addTiles(
+          urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
+          attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>'
+        ) %>%setView(lng = -93.85, lat = 37.45, zoom = 4) %>%
+        clearShapes() %>%
+        addCircles(~longitude, ~latitude, radius=radius1, layerId=~UNITID,
+                   stroke=FALSE, fillOpacity=opacity, fillColor=usedcolor)
+    })
     
-    ### Sales monthly counts
-    plot(1:12, month.v, xlab="Months", ylab="Total sales", 
-         type="b", pch=21, col="black", bg="red", 
-         cex=2, lwd=2, ylim=c(0, max(month.v,na.rm=T)*1.05))
     
-    ### Price per square foot
-    plot(c(0, max(type.price[,c(4,5)], na.rm=T)), 
-         c(0,5), 
-         xlab="Price per square foot", ylab="", 
-         bty="l", type="n")
-    text(rep(0, 4), 1:4+0.5, paste(c("coops", "condos", "luxury hotels", "comm. condos"), 
-                                  type.price$sale.n, sep=": "), adj=0, cex=1.5)
-    points(type.price$unit.mean, 1:nrow(type.price), pch=16, col=2, cex=2)
-    points(type.price$unit.median, 1:nrow(type.price),  pch=16, col=4, cex=2)
-    segments(type.price$unit.mean, 1:nrow(type.price), 
-              type.price$unit.median, 1:nrow(type.price),
-             lwd=2)    
+    showZipcodePopup <- function(x, lat, lng) {
+      lidata <- lidata[lidata$UNITID == x,]
+      content <- as.character(tagList(
+        tags$h4("University:",lidata$INSTNM),
+        tags$strong(HTML(sprintf("information"
+        ))), tags$br(),
+        sprintf("Rank:%s",lidata$Rank), tags$br(),
+        sprintf("State: %s   City: %s",lidata$STABBR,lidata$CITY),tags$br(),
+        sprintf("Cost :%s  (four years)",lidata$CO), tags$br(),
+        sprintf("Url: %s ",lidata$INSTURL),tags$br(),
+        sprintf("Arrested in 2016: %s",lidata$Arrest)
+      ))
+      leafletProxy("map") %>% addPopups(lng, lat, content, layerId =x)
+    }
     
-    ### full price
-    plot(c(0, max(type.price[,-1], na.rm=T)), 
-         c(0,5), 
-         xlab="Sales Price", ylab="", 
-         bty="l", type="n")
-    text(rep(0, 4), 1:4+0.5, paste(c("coops", "condos", "luxury hotels", "comm. condos"), 
-                                   type.price$sale.n, sep=": "), adj=0, cex=1.5)
-    points(type.price$price.mean, 1:nrow(type.price), pch=16, col=2, cex=2)
-    points(type.price$price.median, 1:nrow(type.price),  pch=16, col=4, cex=2)
-    segments(type.price$price.mean, 1:nrow(type.price), 
-             type.price$price.median, 1:nrow(type.price),
-             lwd=2)    
+    
+    
+    observe({
+      leafletProxy("map") %>% clearPopups()
+      event <- input$map_shape_click
+      if (is.null(event))
+        return()
+      
+      
+      
+      isolate({
+        showZipcodePopup(event$id, event$lat, event$lng)
+      })
+    })
+    
+    
+  })
+  ######################kexinnie############
+  library(dplyr)
+  data1<-read.csv("all1.csv")
+  data1$CONTROL <- as.factor(data1$CONTROL)
+  
+  defaultColors <- c("#3366cc", "#dc3912")
+  
+  series <- structure(
+    lapply(defaultColors, function(color) { list(color=color) }),
+    names = levels(data1$CONTROL)
+  )
+  
+  yearData <- reactive({
+    df <- data1 %>%
+      filter(STATE == input$state) %>%
+      select(INSTNM,between30000.75000,after6years,CONTROL,LOANRATE) %>%
+      arrange(CONTROL)
+    
   })
   
-  ## Panel 2: map of sales distribution
-  output$distPlot1 <- renderPlot({
-    count.df.sel=count.df
-    if(input$nbhd>0){
-      count.df.sel=count.df%>%
-        filter(region %in% zip.nbhd[[as.numeric(input$nbhd)]])
-    }
-    # make the map for selected neighhoods
+  
+  output$chart <- reactive({
     
-    zip_choropleth(count.df.sel,
-                   title       = "2009 Manhattan housing sales",
-                   legend      = "Number of sales",
-                   county_zoom = 36061)
+    list(
+      data = googleDataTable(yearData()),
+      options = list(
+        title = sprintf(
+          "Student earnings vs student loans, %s",
+          input$year),
+        series = series
+      )
+    )
   })
-})
+  
+  ## Data Explorer ###########################################
+  output$plot <- renderPlot({
+    library(fmsb)
+    name=input$school
+    
+    transpose<-read.csv("transpose.csv")
+    data=data.frame(as.numeric(as.character(transpose[7,name]))*100, (300-as.numeric(as.character(transpose[32,name])))/3, as.numeric(as.character(transpose[31,name]))/500,
+                    as.numeric(as.character(transpose[26,name]))/36*100, as.numeric(as.character(transpose[27,name]))/36*100,
+                    as.numeric(as.character(transpose[28,name]))/36*100, as.numeric(as.character(transpose[29,name]))/16)
+    
+    colnames(data)=c("admission rate" , "rank" , "Tuition", "ACT English" , "ACT Math", "ACT Writing" ,"SAT" )
+    data=rbind(rep(100,7) , rep(0,7) , data)
+    #radarchart(data)
+    radarchart( data  , axistype=1 , 
+                #custom polygon
+                pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 , 
+                #custom the grid
+                cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(0,100,20), cglwd=0.8,
+                #custom labels
+                vlcex=0.8 
+    )
+  })
+  
+  ## Data Explorer ###########################################
+  library(maps)
+  library(mapproj)
+  counties <- read.csv("orgi.csv")
+  source("helpers.R")
+  output$mapplot <- renderPlot({
+    args <- switch(input$var,
+                   "Student_Married%" = list(counties$married, "darkgreen", "Student_Married%"),
+                   "Student_Depedent%" = list(counties$dependent, "black", "Student_Depedent%"),
+                   "Student_Veteran%" = list(counties$veteran, "darkorange", "Student_Veteran%"),
+                   "Student_First_Generation%" = list(counties$first.generation, "darkviolet", "Student_First_Generation%"))
+
+    args$min <- input$range[1]
+    args$max <- input$range[2]
+    
+    do.call(percent_map, args)
+  })
+  ####################
+  output$raderplot <- renderPlot({
+    library(fmsb)
+    #   input$satmath,input$satessay,input$satreading,input$actscore,input$moneywillingness,input$gpascore,input$studentrank
+    data=data.frame(input$satmath/8,input$satessay/8*100,input$satreading/8,input$actscore/35*100,input$moneywillingness/800,input$gpascore/4*100,input$studentrank)
+    colnames(data)=c("SAT math" , "SAT essay" , "SAT reading", "ACT" , "Financials", "GPA" ,"Rank" )
+    data=rbind(rep(100,7) , rep(0,7) , data)
+    # default       radarchart(data)
+    radarchart( data  , axistype=1 , 
+                #custom polygon
+                pcol=rgb(0.2,0.5,0.5,0.9) , pfcol=rgb(0.2,0.5,0.5,0.5) , plwd=4 , 
+                #custom the grid
+                cglcol="grey", cglty=1, axislabcol="grey", cglwd=0.8,
+                #custom labels
+                vlcex=0.8 
+    )
+  })
+  
+}
