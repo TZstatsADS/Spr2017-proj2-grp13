@@ -5,6 +5,7 @@
 ## US University Recommendation System (Term: Spring 2017)
 
 Current version of the shiny, 
+
 https://jasonzishuoli.shinyapps.io/merge/
 
 https://jasonzishuoli.shinyapps.io/mergedebug/
@@ -36,9 +37,6 @@ https://jasonzishuoli.shinyapps.io/mergedebug/
 
   Users can easily access school information and choose schools that are suitable for them to apply. It is also easy to compare schools contrywide. 
 
-- shiny app/shiny server
-
-https://jasonzishuoli.shinyapps.io/merge/
 + **Contribution statement**: All team members contributed, summarized as follows. All team members approve our work presented in this GitHub repository including this contributions statement. 
 
 * Data processed by Ke HAN, Kexin Nie and Chengceng ZHOU.
