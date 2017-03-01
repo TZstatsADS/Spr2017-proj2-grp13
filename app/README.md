@@ -1,55 +1,13 @@
-# Project: University Recommendation Systerm
-### App folder
+# SuperZIP demo
 
-For each tab, there is a folder, the sepecific feature can be seen.
+See a version of it live at http://shiny.rstudio.com/gallery/superzip-example.html
 
-The merge directory shows how the whole shiny app is assembled.
+You can run this demo with:
+```
+if (!require(devtools))
+  install.packages("devtools")
+devtools::install_github("rstudio/leaflet")
+shiny::runGitHub("rstudio/shiny-examples", subdir="063-superzip-example")
+```
 
-* tab_map
-
-    Created by Zishuo Li, prototype and final version. Data processed by Ke HAN, Kexin Nie and Chengceng ZHOU.
-
-    Map tab, is a interactive map showing the university information, and the selectbutton and sliderbar can show the schools meeting certain criteria.
-
-* tab_student info
-    
-    Created by Ke HAN, prototype and final version. Data processed by Ke HAN, Kexin Nie and Chengceng ZHOU.
-    
-    Information tab, showing the analytics graphic of the student.
-
-* tab_univresity info
-    
-    Created by Ke HAN, prototype and final version.
-    
-    Information tab, showing the university infomation in rader plot.
-    
-* tab_countyinfo
-
-     Created by Ke HAN, prototype and final version. Data processed by Ke HAN.
-    
-    Showing the university % information in a interactive way.
-
-* tab_best value university
-
-    Created by Yu SHAN, prototype and final version. Data processed by Ke HAN, Kexin Nie and Chengceng ZHOU.
-    
-    This is a plot time. Plot tells you which would be a great choice for applying university. Detect the leakage opporunity.
-
-    
-* tab_university recommendation
-
-    Created by Yu SHAN, prototype and final version. Data processed by Ke HAN, Kexin Nie and Chengceng ZHOU.
-    
-    This is a plot time. Find the most relevant university to go!
-
-
-* tab_student_loan
-    
-    Created by Kexin NIE, prototype and final version. Data processed by Kexin Nie.
-
-    Student loan tab, showing the student loan information for different school.
-
-    
-    
-    to be continue
-
+Data compiled for _Coming Apart: The State of White America, 1960–2010_ by Charles Murray (Crown Forum, 2012). This app was inspired by the Washington Post's interactive feature _[Washington: A world apart](http://www.washingtonpost.com/sf/local/2013/11/09/washington-a-world-apart/)_.
