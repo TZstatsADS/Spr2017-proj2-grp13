@@ -6,7 +6,6 @@
 
 Current version of the shiny, 
 
-https://jasonzishuoli.shinyapps.io/merge/
 
 https://jasonzishuoli.shinyapps.io/mergedebug/
 
