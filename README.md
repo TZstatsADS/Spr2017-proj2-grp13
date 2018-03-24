@@ -14,11 +14,6 @@ https://jasonzishuoli.shinyapps.io/mergedebug/
 ![screenshot](doc/Screen Shot 1.png)
 
 + Team # 13
-	+ Han Ke
-	+ Li Zishuo
-	+ Nie kexin
-	+ Yu Shan
-	+ Zhou Chengcen
 
 + Project Goals
 
@@ -36,18 +31,7 @@ https://jasonzishuoli.shinyapps.io/mergedebug/
 
   Users can easily access school information and choose schools that are suitable for them to apply. It is also easy to compare schools contrywide. 
 
-+ **Contribution statement**: All team members contributed, summarized as follows. All team members approve our work presented in this GitHub repository including this contributions statement. 
-
-* Data processed by Ke HAN, Kexin Nie and Chengceng ZHOU.
-* tab_map: Created by Zishuo Li. 
-* tab_student info: Created by Ke HAN.
-* tab_univresity info: Created by Ke HAN, prototype and final version.
-* tab_countyinfo: Created by Ke HAN.
-* tab_best value university: Created by Yu SHAN.
-* tab_university recommendation: Created by Yu SHAN.
-* tab_student laon: Created by Kexin NIE
-
- 
++ **Contribution statement**: All team members contributed, summarized as follows. All team members approve our work presented in this GitHub repository including this contributions statement.
 
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
