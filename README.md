@@ -6,20 +6,17 @@
 
 Current version of the shiny, 
 
-
-https://jasonzishuoli.shinyapps.io/mergedebug/
-
- 
+[CLICK Here](https://jasonzishuoli.shinyapps.io/mergedebug/)
 
 ![screenshot](doc/Screen Shot 1.png)
 
 + Team # 13
 
-Han, Ke kh2793@columbia.edu
-Zhou, Chengcen cz2432@columbia.edu
-Li, Jason zl2528@columbia.edu
-Nie, Kexin kn2403@columbia.edu
-Yu, Shan sy2674@columbia.edu
+ Han, Ke kh2793@columbia.edu
+ Zhou, Chengcen cz2432@columbia.edu
+ Li, Jason zl2528@columbia.edu
+ Nie, Kexin kn2403@columbia.edu
+ Yu, Shan sy2674@columbia.edu
 
 + Project Goals
 
