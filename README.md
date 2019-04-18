@@ -15,6 +15,12 @@ https://jasonzishuoli.shinyapps.io/mergedebug/
 
 + Team # 13
 
+Han, Ke kh2793@columbia.edu
+Zhou, Chengcen cz2432@columbia.edu
+Li, Jason zl2528@columbia.edu
+Nie, Kexin kn2403@columbia.edu
+Yu, Shan sy2674@columbia.edu
+
 + Project Goals
 
   Our goal with this project was to "use of a technique to help high school students finding the most suitable colleges." The question we seek to answer is how visualization of geospatial data can give more context to a well established data set. The technique involved is the development of an R Shiny application using geospatial data and the Leaflet mapping library ("Leaflet for R"). We used the data documentation for college scorecard version 2017, which from collegescorecard.ed.gov, in addition to supplement geospatial data provided by Google.
