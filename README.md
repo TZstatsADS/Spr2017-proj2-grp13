@@ -8,8 +8,6 @@ Current version of the shiny,
 
 [CLICK Here](https://jasonzishuoli.shinyapps.io/mergedebug/)
 
-![screenshot](doc/Screen Shot 1.png)
-
 + Team # 13
 
  Han, Ke kh2793@columbia.edu
