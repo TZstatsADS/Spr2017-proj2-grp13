@@ -32,7 +32,7 @@ Current version of the shiny,
 
   Users can easily access school information and choose schools that are suitable for them to apply. It is also easy to compare schools contrywide. 
 
-+ **Contribution statement**: All team members contributed, summarized as follows. All team members approve our work presented in this GitHub repository including this contributions statement.
++ **Contribution statement**: All team members contributed.
 
 
 Following [suggestions](http://nicercode.github.io/blog/2013-04-05-projects/) by [RICH FITZJOHN](http://nicercode.github.io/about/#Team) (@richfitz). This folder is orgarnized as follows.
